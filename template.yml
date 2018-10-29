@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: LHC is Lambda Headless Chrome
+Resources:
+  lhc:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: artifact
+        Handler: lhc
+        Runtime: go1.x
+        Tracing: Active
+        Events:
+          PostEvent:
+            Type: Api
+            Properties:
+              Path: /repos
+              Method: post
+
+Outputs:
+  ApiUrl:
+    Description: "API endpoint URL for Prod environment"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/repos"
